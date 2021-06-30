@@ -1,0 +1,24 @@
+version: '3.5'
+
+services:
+    web-back-end:
+        image: backend_example_dockerized
+        ports:
+            - 8080:8080
+        environment:
+            - REDIS_HOST=redis-service
+            - POSTGRES_HOST=database
+            - POSTGRES_PASSWORD=example
+    web-front-end:
+        image: example-frontend-dockerized
+        ports:
+            - 5000:5000
+    redis-service:
+        image: redis:latest
+        ports:
+            - 6379:6379
+    database:
+        image: postgres:13-alpine
+        restart: unless-stopped
+        environment: 
+            POSTGRES_PASSWORD: example

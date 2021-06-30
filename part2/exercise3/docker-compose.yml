@@ -1,0 +1,11 @@
+version: '3.5'
+
+services:
+    web-back-end:
+        image: backend_example_dockerized
+        ports:
+            - 8080:8080
+    web-front-end:
+        image: example-frontend-dockerized
+        ports:
+            - 5000:5000
