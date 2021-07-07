@@ -1,0 +1,39 @@
+version: '3.5'
+
+services:
+    web-back-end:
+        build:
+            context: example-backend/
+        container_name: "web-back-end"
+        ports:
+            - 8080:8080
+        environment:
+            - REDIS_HOST=redis-service
+            - POSTGRES_HOST=database
+            - POSTGRES_PASSWORD=example
+    web-front-end:
+        build:
+            context: example-frontend
+        ports:
+            - 5000:5000
+        container_name: "web-front-end"    
+    redis-service:
+        image: redis:latest
+        ports:
+            - 6379:6379
+    database:
+        image: postgres:13-alpine
+        restart: unless-stopped
+        environment: 
+            POSTGRES_PASSWORD: example
+        volumes:
+            - database:/var/lib/postgresql/data
+        container_name: "web-database"
+    nginx:
+        image: nginx
+        volumes:
+            - ./nginx.conf:/etc/nginx/nginx.conf:ro
+        ports:
+            - 80:80
+volumes:
+    database:
